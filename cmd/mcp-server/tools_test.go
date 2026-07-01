@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/eshaffer321/monarchmoney-go/pkg/monarch"
+	"github.com/eshaffer321/monarch-go/pkg/monarch"
 )
 
 func TestGetAccountsTool(t *testing.T) {

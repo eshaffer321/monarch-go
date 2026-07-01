@@ -5,23 +5,23 @@ import (
 	"log"
 	"os"
 
-	"github.com/eshaffer321/monarchmoney-go/pkg/monarch"
+	"github.com/eshaffer321/monarch-go/pkg/monarch"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
 func main() {
-	// Get Monarch Money token from environment
+	// Get Monarch token from environment
 	token := os.Getenv("MONARCH_TOKEN")
 	if token == "" {
 		log.Fatal("MONARCH_TOKEN environment variable is required")
 	}
 
-	// Initialize Monarch Money client
+	// Initialize Monarch client
 	client, err := monarch.NewClient(&monarch.ClientOptions{
 		Token: token,
 	})
 	if err != nil {
-		log.Fatalf("failed to initialize Monarch Money client: %v", err)
+		log.Fatalf("failed to initialize Monarch client: %v", err)
 	}
 
 	// Create MCP server with v1.0.0 API

@@ -17,7 +17,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/eshaffer321/monarchmoney-go/internal/types"
+	"github.com/eshaffer321/monarch-go/internal/types"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 )
@@ -25,7 +25,7 @@ import (
 const (
 	loginEndpoint    = "/auth/login/"
 	mfaEndpoint      = "/auth/login/mfa/"
-	defaultUserAgent = "monarchmoney-go/1.1.0"
+	defaultUserAgent = "monarch-go/2.0.0"
 )
 
 // Service handles authentication operations
