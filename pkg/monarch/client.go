@@ -6,24 +6,24 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/eshaffer321/monarchmoney-go/internal/graphql"
-	"github.com/eshaffer321/monarchmoney-go/internal/transport"
-	internalTypes "github.com/eshaffer321/monarchmoney-go/internal/types"
+	"github.com/eshaffer321/monarch-go/internal/graphql"
+	"github.com/eshaffer321/monarch-go/internal/transport"
+	internalTypes "github.com/eshaffer321/monarch-go/internal/types"
 	"github.com/getsentry/sentry-go"
 )
 
 const (
-	// DefaultBaseURL is the default Monarch Money API base URL
+	// DefaultBaseURL is the default Monarch API base URL
 	DefaultBaseURL = "https://api.monarch.com"
 
 	// DefaultTimeout is the default HTTP client timeout
 	DefaultTimeout = 30 * time.Second
 
 	// UserAgent is the user agent string
-	UserAgent = "monarch-go/1.1.0"
+	UserAgent = "monarch-go/2.0.0"
 )
 
-// Client is the main Monarch Money API client
+// Client is the main Monarch API client
 type Client struct {
 	// Service interfaces
 	Accounts     AccountService
@@ -105,7 +105,7 @@ type Transport interface {
 	SetSession(session *internalTypes.Session)
 }
 
-// NewClient creates a new Monarch Money client
+// NewClient creates a new Monarch client
 func NewClient(opts *ClientOptions) (*Client, error) {
 	if opts == nil {
 		opts = &ClientOptions{}

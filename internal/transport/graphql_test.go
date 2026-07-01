@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/eshaffer321/monarchmoney-go/internal/types"
+	"github.com/eshaffer321/monarch-go/internal/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

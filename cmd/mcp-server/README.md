@@ -1,6 +1,6 @@
-# Monarch Money MCP Server
+# Monarch MCP Server
 
-A [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that provides Claude Desktop and Claude Code access to your Monarch Money budget, transaction, and account data.
+A [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that provides Claude Desktop and Claude Code access to your Monarch budget, transaction, and account data.
 
 ## Features
 
@@ -10,7 +10,7 @@ A [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that pr
 - **Categories**: Browse all transaction categories
 - **Tags**: Access transaction tags for better organization
 
-### Unique Advantages Over Other Monarch Money MCP Servers
+### Unique Advantages Over Other Monarch MCP Servers
 
 ✨ **Rollover Tracking**: Unlike other implementations, this server exposes `rolloverAmount` and `rolloverType` fields - critical for accurate budget planning
 
@@ -18,18 +18,18 @@ A [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that pr
 
 ✨ **Native Go**: Fast, single-binary deployment with no runtime dependencies
 
-✨ **Feature-Complete Client**: Built on the `monarchmoney-go` client with 100% API coverage
+✨ **Feature-Complete Client**: Built on the `monarch-go` client with 100% API coverage
 
 ## Installation
 
 ### Prerequisites
 
 - Go 1.22 or later
-- A Monarch Money account with session token
+- A Monarch account with session token
 
-### Getting Your Monarch Money Token
+### Getting Your Monarch Token
 
-1. Log into [Monarch Money](https://app.monarchmoney.com) in your browser
+1. Log into [Monarch](https://app.monarch.com) in your browser
 2. Open Developer Tools (F12 or Cmd+Option+I)
 3. Go to Application/Storage → Cookies
 4. Copy the value of the `session` cookie
@@ -76,7 +76,7 @@ Add this to your Claude Desktop configuration file:
 }
 ```
 
-Replace `your-session-token-here` with your actual Monarch Money session token.
+Replace `your-session-token-here` with your actual Monarch session token.
 
 ### Claude Code
 
@@ -240,7 +240,7 @@ Once configured, you can ask Claude questions like:
 
 ## Development
 
-This server is designed to be easily extracted into its own repository. It uses the `monarchmoney-go` client as a dependency via Go modules.
+This server is designed to be easily extracted into its own repository. It uses the `monarch-go` client as a dependency via Go modules.
 
 ### Project Structure
 
@@ -275,8 +275,8 @@ Make sure you've set the `MONARCH_TOKEN` in your Claude Desktop configuration or
 
 ### Session token expired
 
-Monarch Money session tokens expire periodically. If you get authentication errors:
-1. Log into Monarch Money in your browser
+Monarch session tokens expire periodically. If you get authentication errors:
+1. Log into Monarch in your browser
 2. Get a fresh session token from cookies
 3. Update your Claude Desktop configuration
 
@@ -293,10 +293,10 @@ MIT
 
 ## Contributing
 
-Issues and pull requests welcome at: https://github.com/eshaffer321/monarchmoney-go
+Issues and pull requests welcome at: https://github.com/eshaffer321/monarch-go
 
 ## Related Projects
 
-- [monarchmoney-go](https://github.com/eshaffer321/monarchmoney-go) - The underlying Go client library
+- [monarch-go](https://github.com/eshaffer321/monarch-go) - The underlying Go client library
 - [monarchmoney (Python)](https://github.com/hammem/monarchmoney) - Original Python implementation
 - [MCP Specification](https://modelcontextprotocol.io) - Model Context Protocol documentation

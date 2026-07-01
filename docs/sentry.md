@@ -1,6 +1,6 @@
 # Sentry Integration
 
-The MonarchMoney Go client includes built-in support for Sentry error tracking, providing automatic error capture with rich context for debugging.
+The Monarch Go client includes built-in support for Sentry error tracking, providing automatic error capture with rich context for debugging.
 
 ## Features
 

@@ -1,9 +1,9 @@
-module github.com/eshaffer321/monarchmoney-go/cmd/mcp-server
+module github.com/eshaffer321/monarch-go/cmd/mcp-server
 
 go 1.23.0
 
 require (
-	github.com/eshaffer321/monarchmoney-go v0.1.0
+	github.com/eshaffer321/monarch-go v0.1.0
 	github.com/modelcontextprotocol/go-sdk v1.0.0
 )
 
@@ -19,4 +19,4 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 )
 
-replace github.com/eshaffer321/monarchmoney-go => ../..
+replace github.com/eshaffer321/monarch-go => ../..

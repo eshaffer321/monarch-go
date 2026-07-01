@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/eshaffer321/monarchmoney-go/pkg/monarch"
+	"github.com/eshaffer321/monarch-go/pkg/monarch"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
-// monarchTools holds the Monarch Money client and implements all tool handlers
+// monarchTools holds the Monarch client and implements all tool handlers
 type monarchTools struct {
 	client *monarch.Client
 }
@@ -58,7 +58,7 @@ func (t *monarchTools) GetBudget(ctx context.Context, req *mcp.CallToolRequest, 
 	// Calculate end date (last day of the month)
 	endDate := startDate.AddDate(0, 1, -1)
 
-	// Fetch budgets from Monarch Money
+	// Fetch budgets from Monarch
 	budgets, err := t.client.Budgets.List(ctx, startDate, endDate)
 	if err != nil {
 		return nil, GetBudgetOutput{}, fmt.Errorf("failed to fetch budgets: %w", err)
@@ -228,7 +228,7 @@ type GetAccountsOutput struct {
 }
 
 func (t *monarchTools) GetAccounts(ctx context.Context, req *mcp.CallToolRequest, input GetAccountsInput) (*mcp.CallToolResult, GetAccountsOutput, error) {
-	// Fetch accounts from Monarch Money
+	// Fetch accounts from Monarch
 	accounts, err := t.client.Accounts.List(ctx)
 	if err != nil {
 		return nil, GetAccountsOutput{}, fmt.Errorf("failed to fetch accounts: %w", err)
@@ -282,7 +282,7 @@ type GetCategoriesOutput struct {
 }
 
 func (t *monarchTools) GetCategories(ctx context.Context, req *mcp.CallToolRequest, input GetCategoriesInput) (*mcp.CallToolResult, GetCategoriesOutput, error) {
-	// Fetch categories from Monarch Money
+	// Fetch categories from Monarch
 	categories, err := t.client.Transactions.Categories().List(ctx)
 	if err != nil {
 		return nil, GetCategoriesOutput{}, fmt.Errorf("failed to fetch categories: %w", err)
@@ -329,7 +329,7 @@ type GetTagsOutput struct {
 }
 
 func (t *monarchTools) GetTags(ctx context.Context, req *mcp.CallToolRequest, input GetTagsInput) (*mcp.CallToolResult, GetTagsOutput, error) {
-	// Fetch tags from Monarch Money
+	// Fetch tags from Monarch
 	tags, err := t.client.Tags.List(ctx)
 	if err != nil {
 		return nil, GetTagsOutput{}, fmt.Errorf("failed to fetch tags: %w", err)

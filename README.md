@@ -1,12 +1,12 @@
-# MonarchMoney Go Client
+# Monarch Go Client
 
-[![CI](https://github.com/eshaffer321/monarchmoney-go/actions/workflows/ci.yml/badge.svg)](https://github.com/eshaffer321/monarchmoney-go/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/github/eshaffer321/monarchmoney-go/branch/main/graph/badge.svg)](https://codecov.io/github/eshaffer321/monarchmoney-go)
-[![Go Report Card](https://goreportcard.com/badge/github.com/eshaffer321/monarchmoney-go)](https://goreportcard.com/report/github.com/eshaffer321/monarchmoney-go)
-[![GoDoc](https://pkg.go.dev/badge/github.com/eshaffer321/monarchmoney-go)](https://pkg.go.dev/github.com/eshaffer321/monarchmoney-go)
+[![CI](https://github.com/eshaffer321/monarch-go/actions/workflows/ci.yml/badge.svg)](https://github.com/eshaffer321/monarch-go/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/github/eshaffer321/monarch-go/branch/main/graph/badge.svg)](https://codecov.io/github/eshaffer321/monarch-go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/eshaffer321/monarch-go)](https://goreportcard.com/report/github.com/eshaffer321/monarch-go)
+[![GoDoc](https://pkg.go.dev/badge/github.com/eshaffer321/monarch-go)](https://pkg.go.dev/github.com/eshaffer321/monarch-go)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-A production-grade Go client library for the [Monarch Money](https://www.monarchmoney.com/) API, providing a clean, idiomatic interface for managing personal finances programmatically.
+A production-grade Go client library for the [Monarch](https://www.monarchmoney.com/) API, providing a clean, idiomatic interface for managing personal finances programmatically.
 
 ## Features
 
@@ -20,7 +20,7 @@ A production-grade Go client library for the [Monarch Money](https://www.monarch
 ## Installation
 
 ```bash
-go get github.com/eshaffer321/monarchmoney-go
+go get github.com/eshaffer321/monarch-go
 ```
 
 ## Quick Start
@@ -33,7 +33,7 @@ import (
     "fmt"
     "log"
     
-    "github.com/eshaffer321/monarchmoney-go/pkg/monarch"
+    "github.com/eshaffer321/monarch-go/pkg/monarch"
 )
 
 func main() {
@@ -249,7 +249,7 @@ make fmt
 ### Project Structure
 
 ```
-monarchmoney-go/
+monarch-go/
 ├── pkg/monarch/       # Public API package
 ├── internal/          # Internal implementation
 │   ├── auth/         # Authentication logic
@@ -270,7 +270,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Disclaimer
 
-This is an unofficial client library and is not affiliated with Monarch Money. Use at your own risk.
+This is an unofficial client library and is not affiliated with Monarch. Use at your own risk.
 
 ## Acknowledgments
 
