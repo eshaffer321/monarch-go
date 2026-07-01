@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/eshaffer321/monarch-go/internal/types"
+	"github.com/eshaffer321/monarch-go/v2/internal/types"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/pkg/errors"
 )

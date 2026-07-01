@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/eshaffer321/monarch-go/pkg/monarch"
+	"github.com/eshaffer321/monarch-go/v2/pkg/monarch"
 )
 
 // ValidatorConfig holds configuration for the validator

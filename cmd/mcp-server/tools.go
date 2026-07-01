@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/eshaffer321/monarch-go/pkg/monarch"
+	"github.com/eshaffer321/monarch-go/v2/pkg/monarch"
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 

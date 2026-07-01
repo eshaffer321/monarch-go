@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/eshaffer321/monarch-go/pkg/monarch"
+	"github.com/eshaffer321/monarch-go/v2/pkg/monarch"
 )
 
 // This example demonstrates transaction deletion and the hideFromReports workaround
