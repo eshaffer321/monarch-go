@@ -11,9 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - ⚠️ **Breaking**: Module path renamed from `github.com/eshaffer321/monarchmoney-go` to
-  `github.com/eshaffer321/monarch-go`, matching Monarch's rebrand from "Monarch Money" to
-  "Monarch." Consumers must update their import paths and `go get` command:
-  `go get github.com/eshaffer321/monarch-go`.
+  `github.com/eshaffer321/monarch-go/v2`, matching Monarch's rebrand from "Monarch Money" to
+  "Monarch" (the `/v2` suffix is required by Go's module versioning rules for a v2+ release).
+  Consumers must update their import paths and `go get` command:
+  `go get github.com/eshaffer321/monarch-go/v2`.
 - Rebranded docs, comments, and the client `UserAgent` string (now `monarch-go/2.0.0`) from
   "Monarch Money" to "Monarch."
 

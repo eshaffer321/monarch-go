@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/eshaffer321/monarch-go/pkg/monarch"
+	"github.com/eshaffer321/monarch-go/v2/pkg/monarch"
 )
 
 // This example demonstrates all available services and their methods

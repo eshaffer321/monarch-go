@@ -1,4 +1,4 @@
-module github.com/eshaffer321/monarch-go
+module github.com/eshaffer321/monarch-go/v2
 
 go 1.21
 

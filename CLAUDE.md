@@ -374,13 +374,13 @@ Breaking Changes:
 2. **Test consuming the new version**:
    ```bash
    # In a test project
-   go get github.com/eshaffer321/monarch-go@vX.Y.Z
+   go get github.com/eshaffer321/monarch-go/v2@vX.Y.Z
    go mod tidy
    ```
 
 3. **Update dependent projects**:
    - If you maintain projects using this library, update them
-   - Run `go get -u github.com/eshaffer321/monarch-go@vX.Y.Z`
+   - Run `go get -u github.com/eshaffer321/monarch-go/v2@vX.Y.Z`
 
 ### Emergency Hotfix Releases
 
@@ -410,7 +410,7 @@ For critical bugs in production:
   - ✅ Always use: `git push origin vX.Y.Z`
 
 - ❌ **Using wrong module path**: Module path in go.mod MUST match GitHub repo URL
-  - ✅ Should be: `module github.com/eshaffer321/monarch-go`
+  - ✅ Should be: `module github.com/eshaffer321/monarch-go/v2`
 
 - ❌ **Skipping CHANGELOG updates**: Always document what changed
   - ✅ Update CHANGELOG.md BEFORE creating tag
@@ -434,7 +434,7 @@ For critical bugs in production:
 
 Go modules use git tags for versioning. When someone runs:
 ```bash
-go get github.com/eshaffer321/monarch-go@v1.2.0
+go get github.com/eshaffer321/monarch-go/v2@v2.1.0
 ```
 
 Go fetches the code at that exact tag. **Without a tag, users cannot access your changes.**
