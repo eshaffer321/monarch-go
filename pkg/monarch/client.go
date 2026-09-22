@@ -60,6 +60,12 @@ type ClientOptions struct {
 	// Token provides direct authentication token
 	Token string
 
+	// Cookie provides browser-session-cookie authentication (e.g. copied from
+	// DevTools: "sessionid=...; csrftoken=..."). Preferred over Token when both
+	// are set — Monarch's bearer-token login is now blocked by bot protection
+	// for scripted clients, while a copied session cookie still works.
+	Cookie string
+
 	// SessionFile path for session persistence
 	SessionFile string
 
@@ -102,6 +108,7 @@ type RateLimiter interface {
 type Transport interface {
 	Execute(ctx context.Context, query string, variables map[string]interface{}, result interface{}) error
 	SetAuth(token string)
+	SetCookie(cookie string)
 	SetSession(session *internalTypes.Session)
 }
 
@@ -164,9 +171,12 @@ func NewClient(opts *ClientOptions) (*Client, error) {
 	}
 	trans := transport.NewGraphQLTransport(transportOpts)
 
-	// Set auth if token provided
+	// Set auth if provided — cookie takes precedence over token (see Cookie doc comment)
 	if opts.Token != "" {
 		trans.SetAuth(opts.Token)
+	}
+	if opts.Cookie != "" {
+		trans.SetCookie(opts.Cookie)
 	}
 
 	// Create client
@@ -195,6 +205,14 @@ func NewClient(opts *ClientOptions) (*Client, error) {
 func NewClientWithToken(token string) (*Client, error) {
 	return NewClient(&ClientOptions{
 		Token: token,
+	})
+}
+
+// NewClientWithCookie creates a client authenticated with a browser session
+// cookie (e.g. copied from DevTools) instead of a bearer token.
+func NewClientWithCookie(cookie string) (*Client, error) {
+	return NewClient(&ClientOptions{
+		Cookie: cookie,
 	})
 }
 

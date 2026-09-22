@@ -247,3 +247,91 @@ func TestSetSession(t *testing.T) {
 	transport.SetSession(session)
 	assert.Equal(t, session, transport.session)
 }
+
+func TestSetCookie(t *testing.T) {
+	transport := NewGraphQLTransport(nil)
+	transport.SetCookie("sessionid=abc; csrftoken=def")
+	assert.Equal(t, "sessionid=abc; csrftoken=def", transport.session.Cookie)
+}
+
+func TestExecute_NotAuthenticated_CookieOnlySessionPasses(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"data":{"test":"ok"}}`))
+	}))
+	defer server.Close()
+
+	transport := NewGraphQLTransport(&Options{BaseURL: server.URL})
+	transport.session = &types.Session{Cookie: "sessionid=abc; csrftoken=def"}
+
+	var result map[string]interface{}
+	err := transport.Execute(context.Background(), "query { test }", nil, &result)
+	assert.NoError(t, err)
+}
+
+func TestExecute_CookieAuth_SetsCookieAndCSRFHeaders(t *testing.T) {
+	var gotCookie, gotCSRF, gotAuth string
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		gotCookie = r.Header.Get("Cookie")
+		gotCSRF = r.Header.Get("X-CSRFToken")
+		gotAuth = r.Header.Get("Authorization")
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"data":{"test":"ok"}}`))
+	}))
+	defer server.Close()
+
+	transport := NewGraphQLTransport(&Options{BaseURL: server.URL})
+	transport.session = &types.Session{Cookie: "sessionid=abc123; csrftoken=xyz789; other=ignored"}
+
+	var result map[string]interface{}
+	err := transport.Execute(context.Background(), "query { test }", nil, &result)
+	require.NoError(t, err)
+
+	assert.Equal(t, "sessionid=abc123; csrftoken=xyz789; other=ignored", gotCookie)
+	assert.Equal(t, "xyz789", gotCSRF)
+	assert.Empty(t, gotAuth, "Authorization header should not be sent when using cookie auth")
+}
+
+func TestExecute_CookiePreferredOverToken(t *testing.T) {
+	var gotCookie, gotAuth string
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		gotCookie = r.Header.Get("Cookie")
+		gotAuth = r.Header.Get("Authorization")
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"data":{"test":"ok"}}`))
+	}))
+	defer server.Close()
+
+	transport := NewGraphQLTransport(&Options{BaseURL: server.URL})
+	transport.session = &types.Session{Token: "test-token", Cookie: "sessionid=abc123; csrftoken=xyz789"}
+
+	var result map[string]interface{}
+	err := transport.Execute(context.Background(), "query { test }", nil, &result)
+	require.NoError(t, err)
+
+	assert.Equal(t, "sessionid=abc123; csrftoken=xyz789", gotCookie)
+	assert.Empty(t, gotAuth)
+}
+
+func TestExtractCookieValue(t *testing.T) {
+	tests := []struct {
+		name   string
+		cookie string
+		key    string
+		want   string
+	}{
+		{"simple", "csrftoken=abc123", "csrftoken", "abc123"},
+		{"multiple cookies", "sessionid=xyz; csrftoken=abc123; other=val", "csrftoken", "abc123"},
+		{"missing key", "sessionid=xyz; other=val", "csrftoken", ""},
+		{"empty cookie string", "", "csrftoken", ""},
+		{"trailing semicolon", "sessionid=xyz; csrftoken=abc123;", "csrftoken", "abc123"},
+		{"value containing equals", "csrftoken=abc=123==", "csrftoken", "abc=123=="},
+		{"extra whitespace", "sessionid=xyz;   csrftoken=abc123", "csrftoken", "abc123"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			assert.Equal(t, tt.want, extractCookieValue(tt.cookie, tt.key))
+		})
+	}
+}

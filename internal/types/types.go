@@ -9,6 +9,7 @@ import (
 // Session represents an authenticated session
 type Session struct {
 	Token      string    `json:"token"`
+	Cookie     string    `json:"cookie,omitempty"`
 	UserID     string    `json:"userId"`
 	Email      string    `json:"email"`
 	ExpiresAt  time.Time `json:"expiresAt"`
