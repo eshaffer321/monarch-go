@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-09-21
+
+### Added
+- Added cookie-based authentication via `ClientOptions.Cookie` / `NewClientWithCookie`, for use
+  with a browser-copied Monarch session cookie (`sessionid=...; csrftoken=...`). Preferred over
+  `Token` when both are set — Monarch's bearer-token/scripted login path is increasingly blocked
+  by bot protection, while a copied session cookie continues to work and reportedly lasts longer.
+  Cookie auth sends `Cookie` and, when present, `X-CSRFToken` (extracted from the cookie's
+  `csrftoken` value) instead of the `Authorization: Token` header.
+
 ## [2.0.0] - 2026-07-01
 
 ### Changed

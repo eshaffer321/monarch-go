@@ -39,12 +39,11 @@ import (
 func main() {
     // Create client
     client, err := monarch.NewClient(&monarch.ClientOptions{
-        // Option 1: Use token directly
+        // Option 1 (recommended): browser session cookie — see Authentication below
+        // Cookie: "sessionid=...; csrftoken=...",
+
+        // Option 2: bearer token
         Token: "your-auth-token",
-        
-        // Option 2: Login with credentials
-        // Email: "your-email@example.com",
-        // Password: "your-password",
     })
     if err != nil {
         log.Fatal(err)
@@ -66,7 +65,39 @@ func main() {
 
 ## Authentication
 
+### Cookie Auth (recommended)
+
+Monarch's web app now authenticates with an HttpOnly session cookie, and scripted
+username/password logins are frequently blocked by bot protection. A browser-copied session
+cookie is the most reliable way to authenticate a script today, and reportedly lasts much longer
+than a bearer token (~60 days per community reports — not confirmed against Monarch's own docs).
+
+**How to get it:**
+1. Log in to https://app.monarch.com in your browser (check "Stay signed in" if offered)
+2. Open DevTools → Network, and find any request to `api.monarch.com/graphql`
+3. Copy the full `Cookie` request header (it includes `sessionid=...; csrftoken=...`)
+
+```go
+client, err := monarch.NewClient(&monarch.ClientOptions{
+    Cookie: "sessionid=...; csrftoken=...", // paste the full Cookie header here
+})
+```
+
+Cookie auth takes precedence over `Token` when both are set.
+
+### Bearer Token
+
+```go
+client, err := monarch.NewClient(&monarch.ClientOptions{
+    Token: "your-auth-token",
+})
+```
+
 ### Login with Credentials
+
+⚠️ Scripted login is currently unreliable — Monarch's bot protection blocks many automated
+`/auth/login/` requests. Prefer cookie auth above. This is kept for accounts/flows where it still
+works.
 
 ```go
 client, _ := monarch.NewClient(&monarch.ClientOptions{})

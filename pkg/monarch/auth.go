@@ -33,6 +33,7 @@ func (a *authService) convertSession(s *internalTypes.Session) *Session {
 	}
 	return &Session{
 		Token:      s.Token,
+		Cookie:     s.Cookie,
 		UserID:     s.UserID,
 		Email:      s.Email,
 		ExpiresAt:  s.ExpiresAt,

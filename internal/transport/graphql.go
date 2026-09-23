@@ -107,7 +107,7 @@ func NewGraphQLTransport(opts *Options) *GraphQLTransport {
 // Execute executes a GraphQL query
 func (t *GraphQLTransport) Execute(ctx context.Context, query string, variables map[string]interface{}, result interface{}) error {
 	// Check authentication
-	if t.session == nil || t.session.Token == "" {
+	if t.session == nil || (t.session.Token == "" && t.session.Cookie == "") {
 		return types.ErrNotAuthenticated
 	}
 
@@ -151,8 +151,15 @@ func (t *GraphQLTransport) Execute(ctx context.Context, query string, variables 
 		httpReq.Header.Set(k, v)
 	}
 
-	// Set auth header
-	if t.session != nil && t.session.Token != "" {
+	// Set auth header — cookie auth takes precedence when both are configured,
+	// since Monarch's bearer-token login path is now blocked by bot protection
+	// while a browser-copied session cookie still works (see README).
+	if t.session != nil && t.session.Cookie != "" {
+		httpReq.Header.Set("Cookie", t.session.Cookie)
+		if csrf := extractCookieValue(t.session.Cookie, csrfKey); csrf != "" {
+			httpReq.Header.Set("X-CSRFToken", csrf)
+		}
+	} else if t.session != nil && t.session.Token != "" {
 		httpReq.Header.Set(authHeaderKey, fmt.Sprintf("Token %s", t.session.Token))
 	}
 
@@ -232,6 +239,28 @@ func (t *GraphQLTransport) SetAuth(token string) {
 		t.session = &types.Session{}
 	}
 	t.session.Token = token
+}
+
+// SetCookie sets the raw browser session cookie used for cookie-based auth.
+// It takes precedence over a bearer token when both are set — see Execute.
+func (t *GraphQLTransport) SetCookie(cookie string) {
+	if t.session == nil {
+		t.session = &types.Session{}
+	}
+	t.session.Cookie = cookie
+}
+
+// extractCookieValue pulls the value of a single named cookie out of a raw
+// "Cookie" header string (e.g. "sessionid=abc; csrftoken=def; other=ghi").
+func extractCookieValue(cookie, name string) string {
+	for _, part := range strings.Split(cookie, ";") {
+		part = strings.TrimSpace(part)
+		k, v, found := strings.Cut(part, "=")
+		if found && k == name {
+			return v
+		}
+	}
+	return ""
 }
 
 // SetSession sets the session

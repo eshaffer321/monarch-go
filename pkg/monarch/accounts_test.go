@@ -36,6 +36,10 @@ func (m *MockTransport) SetAuth(token string) {
 	m.Called(token)
 }
 
+func (m *MockTransport) SetCookie(cookie string) {
+	m.Called(cookie)
+}
+
 func (m *MockTransport) SetSession(session *internalTypes.Session) {
 	m.Called(session)
 }
