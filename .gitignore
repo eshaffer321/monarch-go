@@ -78,3 +78,9 @@ cmd/mcp-server/mcp-monarch
 
 # Test files
 test_*.go
+
+# MCP server binary (go build output)
+cmd/mcp-server/mcp-server
+
+# Local agent config (may contain tokens)
+.codex/
