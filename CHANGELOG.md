@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-10-07
+
 ### Added
 - MCP server: new `get_recurring_transactions` tool exposing recurring/upcoming transactions
   (merchant, amount, frequency, next date, category, account). Accepts an optional
@@ -176,7 +178,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 All development work leading up to the v1.0.0 release.
 
-[Unreleased]: https://github.com/eshaffer321/monarch-go/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/eshaffer321/monarch-go/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/eshaffer321/monarch-go/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/eshaffer321/monarch-go/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/eshaffer321/monarch-go/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/eshaffer321/monarch-go/compare/v1.0.5...v1.1.0
 [1.0.5]: https://github.com/eshaffer321/monarch-go/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/eshaffer321/monarch-go/compare/v1.0.3...v1.0.4
