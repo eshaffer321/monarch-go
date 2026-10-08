@@ -206,6 +206,90 @@ func (t *monarchTools) GetTransactions(ctx context.Context, req *mcp.CallToolReq
 	}, nil
 }
 
+// GetRecurringTransactions tool - retrieves recurring transactions
+type GetRecurringTransactionsInput struct {
+	StartDate string `json:"startDate,omitempty" jsonschema:"Start date in YYYY-MM-DD format (optional, defaults to today)"`
+	EndDate   string `json:"endDate,omitempty" jsonschema:"End date in YYYY-MM-DD format (optional, defaults to one month from start date)"`
+}
+
+type RecurringTransactionEntry struct {
+	ID            string  `json:"id" jsonschema:"Recurring transaction stream ID"`
+	Merchant      string  `json:"merchant" jsonschema:"Merchant name"`
+	Amount        float64 `json:"amount" jsonschema:"Recurring amount (negative for expenses)"`
+	Frequency     string  `json:"frequency" jsonschema:"Recurrence frequency (e.g. monthly, weekly)"`
+	NextDate      string  `json:"nextDate" jsonschema:"Next expected occurrence date"`
+	Category      string  `json:"category,omitempty" jsonschema:"Transaction category"`
+	Account       string  `json:"account,omitempty" jsonschema:"Account name"`
+	IsActive      bool    `json:"isActive" jsonschema:"Whether this recurring stream is still active"`
+	IsApproximate bool    `json:"isApproximate" jsonschema:"Whether the amount/date is approximate"`
+}
+
+type GetRecurringTransactionsOutput struct {
+	RecurringTransactions []RecurringTransactionEntry `json:"recurringTransactions" jsonschema:"List of recurring transactions"`
+	Count                 int                         `json:"count" jsonschema:"Number of recurring transactions returned"`
+}
+
+func (t *monarchTools) GetRecurringTransactions(ctx context.Context, req *mcp.CallToolRequest, input GetRecurringTransactionsInput) (*mcp.CallToolResult, GetRecurringTransactionsOutput, error) {
+	var (
+		transactions []*monarch.RecurringTransaction
+		err          error
+	)
+
+	if input.StartDate != "" {
+		startDate, parseErr := time.Parse("2006-01-02", input.StartDate)
+		if parseErr != nil {
+			return nil, GetRecurringTransactionsOutput{}, fmt.Errorf("invalid startDate format (expected YYYY-MM-DD): %w", parseErr)
+		}
+
+		endDate := startDate.AddDate(0, 1, 0)
+		if input.EndDate != "" {
+			endDate, err = time.Parse("2006-01-02", input.EndDate)
+			if err != nil {
+				return nil, GetRecurringTransactionsOutput{}, fmt.Errorf("invalid endDate format (expected YYYY-MM-DD): %w", err)
+			}
+		}
+
+		transactions, err = t.client.Recurring.ListWithDateRange(ctx, startDate, endDate)
+	} else {
+		transactions, err = t.client.Recurring.List(ctx)
+	}
+
+	if err != nil {
+		return nil, GetRecurringTransactionsOutput{}, fmt.Errorf("failed to fetch recurring transactions: %w", err)
+	}
+
+	var entries []RecurringTransactionEntry
+	for _, rt := range transactions {
+		entry := RecurringTransactionEntry{
+			ID:            rt.ID,
+			Amount:        rt.Amount,
+			Frequency:     rt.Frequency,
+			NextDate:      rt.NextDate.Time.Format("2006-01-02"),
+			IsActive:      rt.IsActive,
+			IsApproximate: rt.IsApproximate,
+		}
+
+		if rt.Merchant != nil {
+			entry.Merchant = rt.Merchant.Name
+		}
+
+		if rt.Category != nil {
+			entry.Category = rt.Category.Name
+		}
+
+		if rt.Account != nil {
+			entry.Account = rt.Account.DisplayName
+		}
+
+		entries = append(entries, entry)
+	}
+
+	return nil, GetRecurringTransactionsOutput{
+		RecurringTransactions: entries,
+		Count:                 len(entries),
+	}, nil
+}
+
 // GetAccounts tool - retrieves all accounts
 type GetAccountsInput struct {
 	// No input parameters needed

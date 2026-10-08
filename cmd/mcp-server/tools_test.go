@@ -134,6 +134,36 @@ func TestGetBudgetTool(t *testing.T) {
 	}
 }
 
+func TestGetRecurringTransactionsTool(t *testing.T) {
+	token := os.Getenv("MONARCH_TOKEN")
+	if token == "" {
+		t.Skip("MONARCH_TOKEN not set")
+	}
+
+	client, err := monarch.NewClient(&monarch.ClientOptions{
+		Token: token,
+	})
+	if err != nil {
+		t.Fatalf("Failed to create client: %v", err)
+	}
+
+	tools := &monarchTools{client: client}
+
+	callResult, output, err := tools.GetRecurringTransactions(context.Background(), nil, GetRecurringTransactionsInput{})
+
+	if err != nil {
+		t.Fatalf("GetRecurringTransactions failed: %v", err)
+	}
+
+	t.Logf("✓ GetRecurringTransactions returned %d recurring transactions (callResult=%v)", output.Count, callResult)
+
+	// Pretty print first recurring transaction
+	if len(output.RecurringTransactions) > 0 {
+		jsonData, _ := json.MarshalIndent(output.RecurringTransactions[0], "", "  ")
+		t.Logf("First recurring transaction:\n%s", string(jsonData))
+	}
+}
+
 func TestGetTransactionsTool(t *testing.T) {
 	token := os.Getenv("MONARCH_TOKEN")
 	if token == "" {

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- MCP server: new `get_recurring_transactions` tool exposing recurring/upcoming transactions
+  (merchant, amount, frequency, next date, category, account). Accepts an optional
+  `startDate`/`endDate`; defaults to the next 30 days.
+
 ## [2.1.0] - 2026-09-21
 
 ### Added

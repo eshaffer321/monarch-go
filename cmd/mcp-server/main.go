@@ -70,4 +70,9 @@ func registerTools(server *mcp.Server, client *monarch.Client) {
 		Name:        "get_tags",
 		Description: "Get all available transaction tags.",
 	}, tools.GetTags)
+
+	mcp.AddTool(server, &mcp.Tool{
+		Name:        "get_recurring_transactions",
+		Description: "Get recurring/upcoming transactions (subscriptions, bills, etc.), including merchant, amount, frequency, and next expected date. Defaults to the next 30 days if no date range is given.",
+	}, tools.GetRecurringTransactions)
 }
